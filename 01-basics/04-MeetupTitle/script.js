@@ -15,20 +15,18 @@ function fetchMeetupById(meetupId) {
 }
 
 const Root = defineComponent({
-  data(){
+  data() {
     return {
-      meetupId : null,
-      meetupTitle : null,
-    }
+      meetupId: null,
+      meetupTitle: null,
+    };
   },
   watch: {
     meetupId(newValue) {
-      fetchMeetupById(newValue)
-        .then(response => this.meetupTitle = response.title)
-      },
-  }
-
-})
+      fetchMeetupById(newValue).then(response => this.meetupTitle = response.title)
+    },
+  },
+});
 
 const app = createApp(Root);
 const vm = app.mount('#app');

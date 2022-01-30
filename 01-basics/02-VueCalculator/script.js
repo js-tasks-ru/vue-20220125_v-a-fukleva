@@ -1,4 +1,4 @@
-import {defineComponent, createApp} from './vendor/vue.esm-browser.js';
+import { defineComponent, createApp } from './vendor/vue.esm-browser.js';
 
 const Root = defineComponent({
   data() {
@@ -6,10 +6,9 @@ const Root = defineComponent({
       picked: null,
       operand1: 0,
       operand2: 0,
-    }
+    };
   },
   computed: {
-
     calcResult() {
       switch (this.picked) {
         case 'sum':
@@ -22,10 +21,9 @@ const Root = defineComponent({
           return this.operand1 / this.operand2;
         default:
           return 0;
-
       }
-    }
-  }
+    },
+  },
 });
 
 const app = createApp(Root);
