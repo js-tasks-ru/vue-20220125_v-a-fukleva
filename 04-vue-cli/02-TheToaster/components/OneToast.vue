@@ -1,6 +1,6 @@
 <template>
-  <div class="toast" :class="[toast[type].class]">
-    <ui-icon class="toast__icon" :icon="toast[type].icon" />
+  <div class="toast" :class="[$options.toast[type].class]">
+    <ui-icon class="toast__icon" :icon="$options.toast[type].icon" />
     <span>{{ text }}</span>
   </div>
 </template>
@@ -21,19 +21,15 @@ export default {
       default: ''
     }
   },
-  data(){
-    return{
-      toast: {
-        error : {
-          class: 'toast_error',
-          icon: 'alert-circle'
-        },
-        success : {
-          class: 'toast_success',
-          icon: 'check-circle'
-        },
-      }
-    }
+  toast: {
+    error : {
+      class: 'toast_error',
+      icon: 'alert-circle'
+    },
+    success : {
+      class: 'toast_success',
+      icon: 'check-circle'
+    },
   }
 }
 </script>

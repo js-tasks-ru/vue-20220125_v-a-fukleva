@@ -3,12 +3,12 @@
     class="dropdown__item" :class="{'dropdown__item_icon' : hasIcon }"
     role="option"
     type="button"
-    @click="update(item.value)"
+    @click="$emit('onClick')"
     >
 
       <ui-icon
-        v-if="hasIcon"
-        :icon="setIcon"
+        v-if="hasIcon && item.icon"
+        :icon="item.icon"
         class="dropdown__icon"/>
 
     {{ item.text }}
@@ -29,20 +29,7 @@ export default {
     hasIcon: {
       type: Boolean,
     },
-    modelValue: {type: String},
   },
-  emits: ['update:modelValue'],
-  methods : {
-    update(value) {
-      this.$emit('update:modelValue', value)
-    }
-  },
-  computed: {
-    setIcon(){
-      return this.item.icon ? this.item.icon : 'tv'
-    }
-  }
-
 }
 </script>
 

@@ -13,7 +13,11 @@ export default {
   },
   computed : {
     imgUrl() {
-      return this.image ? `url("${this.image}")` : 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), var(--default-cover)'
+      if(this.image){
+        return `linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${this.image}')`
+      } else {
+        return 'linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), var(--default-cover)'
+      }
     }
   }
 };

@@ -27,27 +27,19 @@ export default {
           type: 'error',
           msg: message,
         })
+      this.hideToast(5000)
     },
     success(message) {
       this.toasts.push({
         type: 'success',
         msg: message,
       })
+      this.hideToast(5000)
     },
     hideToast(ms) {
       setTimeout(() => this.toasts.shift(), ms)
     }
   },
-  computed: {
-    toastsLength() {
-      return this.toasts.length
-    }
-  },
-  watch: {
-    toastsLength (val, oldVal) {
-      oldVal < val ? this.hideToast(5000) : null;
-    }
-  }
 };
 </script>
 

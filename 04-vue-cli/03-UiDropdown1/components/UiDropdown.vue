@@ -7,7 +7,7 @@
 
       <ui-icon
         v-if="currentItem && currentItem.icon"
-        :icon="currentItem.icon ? currentItem.icon : 'tv'"
+        :icon="currentItem.icon"
         class="dropdown__icon" />
 
       <span>{{ currentItem ? currentItem.text : title }}</span>
@@ -22,7 +22,7 @@
         v-for="item in options"
         :hasIcon="hasIcon"
         :item="item"
-        v-model="selectedItem">
+        @onClick="update(item.value)">
       </ui-dropdown-item>
 
     </div>
@@ -54,7 +54,6 @@ export default {
   data(){
     return{
       opened: false,
-      selectedItem: null,
     }
   },
   methods:{
@@ -63,6 +62,7 @@ export default {
     },
     update(value) {
       this.$emit('update:modelValue', value)
+      this.toggleDropdown();
     }
   },
   computed: {
@@ -70,17 +70,9 @@ export default {
       return this.options.find(option => option.value === this.modelValue);
     },
     hasIcon(){
-      let icon = false;
-      this.options.forEach(option => option.hasOwnProperty('icon') ? icon = true : null)
-      return icon;
+      return this.options.some(option => option.hasOwnProperty('icon'))
     },
   },
-  watch:{
-    selectedItem(newValue) {
-      this.update(newValue);
-      this.toggleDropdown();
-    }
-  }
 
 };
 </script>
