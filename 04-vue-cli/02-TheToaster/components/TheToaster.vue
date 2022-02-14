@@ -1,24 +1,45 @@
 <template>
   <div class="toasts">
-    <div class="toast toast_success">
-      <ui-icon class="toast__icon" icon="check-circle" />
-      <span>Success Toast Example</span>
-    </div>
-
-    <div class="toast toast_error">
-      <ui-icon class="toast__icon" icon="alert-circle" />
-      <span>Error Toast Example</span>
-    </div>
+    <one-toast
+      class='toast__success'
+      v-for='toast in toasts'
+      :type='toast.type'
+      :text='toast.msg'>
+    </one-toast>
   </div>
 </template>
 
 <script>
-import UiIcon from './UiIcon';
+import OneToast from "./OneToast";
 
 export default {
   name: 'TheToaster',
+  data() {
+    return {
+      toasts: [],
+    }
+  },
 
-  components: { UiIcon },
+  components: {OneToast},
+  methods: {
+    error(message) {
+        this.toasts.push({
+          type: 'error',
+          msg: message,
+        })
+      this.hideToast(5000)
+    },
+    success(message) {
+      this.toasts.push({
+        type: 'success',
+        msg: message,
+      })
+      this.hideToast(5000)
+    },
+    hideToast(ms) {
+      setTimeout(() => this.toasts.shift(), ms)
+    }
+  },
 };
 </script>
 
@@ -41,33 +62,4 @@ export default {
   }
 }
 
-.toast {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px;
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  font-size: 18px;
-  line-height: 28px;
-  width: auto;
-}
-
-.toast + .toast {
-  margin-top: 20px;
-}
-
-.toast__icon {
-  margin-right: 12px;
-}
-
-.toast.toast_success {
-  color: var(--green);
-}
-
-.toast.toast_error {
-  color: var(--red);
-}
 </style>
