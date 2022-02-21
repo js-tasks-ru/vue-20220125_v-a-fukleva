@@ -13,7 +13,7 @@ export const router = createRouter({
       component: () => import('../views/PageB'),
     },
     {
-      path: '/:pathMatch(.*)*55',
+      path: '/:pathMatch(.*)*',
       component: () => import('../views/PageNotFound'),
     },
   ],
