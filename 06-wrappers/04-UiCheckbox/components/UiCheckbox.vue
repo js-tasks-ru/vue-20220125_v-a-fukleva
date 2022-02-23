@@ -22,13 +22,13 @@ export default {
   computed: {
     checkedArray: {
       get: function () {
-          return this.modelValue
+        return this.modelValue
       },
       set: function (newValue) {
         this.$emit('update:modelValue', newValue)
       }
     },
-  },
+  }
 };
 </script>
 
