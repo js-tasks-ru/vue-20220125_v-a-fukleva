@@ -24,7 +24,7 @@
     </ui-form-group>
 
     <ui-form-group label="With Lazy">
-      <ui-input v-model.lazy="value" />
+      <ui-input v-model.lazy="value"/>
     </ui-form-group>
 
     <ui-form-group>

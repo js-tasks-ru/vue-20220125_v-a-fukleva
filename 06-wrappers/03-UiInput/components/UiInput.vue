@@ -1,13 +1,29 @@
 <template>
-  <div class="input-group input-group_icon input-group_icon-left input-group_icon-right">
-    <div class="input-group__icon">
-      <img class="icon" alt="icon" />
+  <div
+    class="input-group"
+    :class="setExtraClassNames()"
+  >
+    <div
+      class="input-group__icon"
+      v-if="$slots['left-icon']"
+    >
+      <slot name="left-icon"></slot>
     </div>
 
-    <input ref="input" class="form-control form-control_rounded form-control_sm" />
+    <component :is="tag"
+               ref="input"
+               class="form-control"
+               :class="inputClass"
+               :value="modelValue"
+               @input="update($event.target)"
+               v-bind="$attrs"
+    />
 
-    <div class="input-group__icon">
-      <img class="icon" alt="icon" />
+    <div
+      class="input-group__icon"
+      v-if="$slots['right-icon']"
+    >
+      <slot name="right-icon"></slot>
     </div>
   </div>
 </template>
@@ -15,6 +31,58 @@
 <script>
 export default {
   name: 'UiInput',
+  inheritAttrs: false,
+  props: {
+    small: Boolean,
+    rounded: Boolean,
+    multiline: Boolean,
+    modelValue: String,
+  },
+  emits: {
+    'update:modelValue': null,
+  },
+  computed: {
+    tag() {
+      return this.multiline ? 'textarea' : 'input'
+    },
+    inputClass() {
+      const classesArr = [];
+
+      if (this.small) {
+        classesArr.push('form-control_sm')
+      }
+      if (this.rounded) {
+        classesArr.push('form-control_rounded')
+      }
+
+      return classesArr
+    },
+  },
+  methods: {
+    focus() {
+      this.$refs.input.focus();
+    },
+    setExtraClassNames() {
+      const classesArr = [];
+
+      if (this.$slots['left-icon'] || this.$slots['right-icon']) {
+          classesArr.push('input-group_icon')
+      }
+
+      if(this.$slots['left-icon']) {
+        classesArr.push('input-group_icon-left')
+      }
+
+      if(this.$slots['right-icon']) {
+        classesArr.push('input-group_icon-right')
+      }
+
+      return classesArr
+    },
+    update(event) {
+      this.$emit('update:modelValue', event.value)
+    }
+  },
 };
 </script>
 

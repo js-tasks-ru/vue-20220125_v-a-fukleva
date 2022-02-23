@@ -1,8 +1,13 @@
 <template>
   <label class="checkbox">
-    <input v-model="customModel" type="checkbox" class="checkbox__input" v-bind="$attrs" />
+    <input
+      type="checkbox"
+      class="checkbox__input"
+      v-model="checkedArray"
+      v-bind="$attrs"
+    />
     <span class="checkbox__box"></span>
-    <slot />
+    <slot></slot>
   </label>
 </template>
 
@@ -10,28 +15,20 @@
 export default {
   name: 'UiCheckbox',
   inheritAttrs: false,
-
   props: {
-    modelValue: {
-      type: [Boolean, Array],
-      default: false,
-    },
+    modelValue: [Boolean, Array],
   },
-
-  emits: {
-    'update:modelValue': null,
-  },
-
+  emits: ['update:modelValue'],
   computed: {
-    customModel: {
-      get() {
-        return this.modelValue;
+    checkedArray: {
+      get: function () {
+        return this.modelValue
       },
-      set(value) {
-        this.$emit('update:modelValue', value);
-      },
+      set: function (newValue) {
+        this.$emit('update:modelValue', newValue)
+      }
     },
-  },
+  }
 };
 </script>
 
