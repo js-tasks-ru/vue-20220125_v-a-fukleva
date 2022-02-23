@@ -1,8 +1,24 @@
 <template>
   <div class="image-uploader">
-    <label class="image-uploader__preview image-uploader__preview-loading" style="--bg-url: url('/link.jpeg')">
-      <span class="image-uploader__text">Загрузить изображение</span>
-      <input type="file" accept="image/*" class="image-uploader__input" />
+    <label
+      class="image-uploader__preview"
+      :class="{'image-uploader__preview-loading' : loading}"
+      :style="preview && { '--bg-url': `url('${preview}')` }"
+    >
+
+      <span class="image-uploader__text">
+        {{ placeholder }}
+      </span>
+      <input
+        ref="input"
+        type="file"
+        accept="image/*"
+        class="image-uploader__input"
+        v-bind="$attrs"
+        @click="handleClick($event)"
+        @change="handleChange()"
+      />
+
     </label>
   </div>
 </template>
@@ -10,6 +26,71 @@
 <script>
 export default {
   name: 'UiImageUploader',
+  inheritAttrs: false,
+  props: {
+    preview: {
+      type: String,
+    },
+    uploader: {
+      type: Function,
+    }
+  },
+  emits: ['select', 'remove', 'upload', 'error'],
+  data() {
+    return {
+      loading: false,
+    }
+  },
+  computed: {
+    placeholder() {
+      if (this.loading) {
+        return 'Загрузка...'
+      } else {
+        if (this.preview) {
+          return "Удалить изображение"
+        } else {
+          return "Загрузить изображение"
+        }
+      }
+    },
+  },
+  methods: {
+    handleClick(event) {
+      if(!this.loading) {
+        this.$emit('remove');
+        this.$refs.input.value = '';
+      }
+
+      if (this.preview) {
+        event.preventDefault();
+      }
+    },
+    handleChange() {
+      const input = this.$refs.input;
+      this.$emit('select', input.files[0]);
+
+      if (this.uploader) {
+
+        this.loading = true;
+        this.uploader(input.files[0])
+          .then(
+            response => {
+              this.$emit('upload', response)
+              this.loading = false;
+            },
+            error => {
+              this.$emit('error', error);
+              input.value = '';
+              this.loading = false;
+            }
+          )
+      } else {
+        this.$emit('upload', {
+          image: URL.createObjectURL(input.files[0]),
+        })
+      }
+    },
+  }
 };
 </script>
 
